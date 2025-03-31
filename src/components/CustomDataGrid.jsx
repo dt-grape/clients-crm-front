@@ -1,20 +1,24 @@
 import React, { useMemo, useState } from "react";
 
 import { AgGridReact } from "ag-grid-react";
+import { themeMaterial } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
 import { useGetStudents } from "../http/Students";
+
+import mockStudents from "../mock/mock";
+import { Paper } from "@mui/material";
 
 const CustomDataGrid = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading, isError } = useGetStudents();
+  // const { data, isLoading, isError } = useGetStudents();
 
   const colDefs = useMemo(
     () => [
       { field: "name", headerName: "ФИО", filter: true },
       { field: "status.title", headerName: "Статус" },
       { field: "profile", headerName: "Направление" },
-      { field: "total_points", headerName: "Баллы" },
+      { field: "total_points_with_achievements", headerName: "Баллы" },
       {
         field: "is_dormitory_needed",
         headerName: "Общежитие",
@@ -28,17 +32,20 @@ const CustomDataGrid = () => {
     navigate(`/student/${event.data.student_id}`, { state: event.data });
   };
 
-  if (isLoading) return <p>Загрузка...</p>;
-  if (isError) return <p>Ошибка загрузки данных</p>;
+  // if (isLoading) return <p>Загрузка...</p>;
+  // if (isError) return <p>Ошибка загрузки данных</p>;
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <AgGridReact
-        rowData={data}
-        columnDefs={colDefs}
-        onRowDoubleClicked={onRowClicked}
-      />
-    </div>
+    <Paper elevation={3} sx={{ borderRadius: 2 }}>
+      <div style={{ height: 400, width: "100%" }}>
+        <AgGridReact
+          theme={themeMaterial}
+          rowData={mockStudents}
+          columnDefs={colDefs}
+          onRowClicked={onRowClicked}
+        />
+      </div>
+    </Paper>
   );
 };
 

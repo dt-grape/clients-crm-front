@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import StudentDetails from "./pages/StudentDetail.jsx";
-import EventFeed from "./pages/EventFeed.jsx";
 import Tasks from "./pages/Tasks.jsx";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -25,7 +24,6 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/auth" element={<Auth />} />
       <Route path="/student/:studentId" element={<StudentDetails />} />
-      <Route path="/events" element={<EventFeed />} />
       <Route path="/tasks" element={<Tasks />} />
     </Routes>
   );

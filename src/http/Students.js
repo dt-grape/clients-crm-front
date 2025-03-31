@@ -22,10 +22,12 @@ export const useGetStudents = () => {
   });
 };
 
-export const getStudent = async (id) => {
-  const { data } = await axios.get(`${API_URL}/students/?student_id=${id}`, {
-    headers: {
-      "ngrok-skip-browser-warning": "true",
+export const getStudent = async (student_id) => {
+  const { data } = await axios.get(
+    `${API_URL}/students/?student_id=${student_id}`,
+    {
+      headers: {
+        "ngrok-skip-browser-warning": "true",
     },
     withCredentials: true,
   });

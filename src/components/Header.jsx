@@ -18,14 +18,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import ListAltIcon from "@mui/icons-material/ListAlt";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 const logoutUser = async () => {
   const response = await axios.post(
-    "https://mint-bunny-weekly.ngrok-free.app/v1/auth/logout",
+    "https://mint-bunny-weekly.ngrok-free.app/v1/auth/logout"
   );
   return response.data;
 };
@@ -81,14 +81,6 @@ const Header = () => {
             </ListItemButton>
           </ListItem>
           <ListItem>
-            <ListItemButton onClick={() => navigate("/events")}>
-              <ListItemIcon>
-                <EventIcon />
-              </ListItemIcon>
-              <ListItemText primary="Лента событий" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
             <ListItemButton onClick={() => navigate("/tasks")}>
               <ListItemIcon>
                 <ListAltIcon />
@@ -131,7 +123,11 @@ const Header = () => {
           borderBottom: "1px solid #ccc",
         }}
       >
-        <p>CRM</p>
+        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Typography variant="h6" fontFamily="JetBrains Mono">
+            StudentReach CRM
+          </Typography>
+        </Link>
         {isAuth ? (
           <>
             <Button variant="contained" onClick={toggleDrawer(true)}>

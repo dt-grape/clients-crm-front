@@ -1,4 +1,4 @@
-import { Grid2, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 
 const metricsPanel = [
   { title: "Всего абитуриентов", value: "3" },
@@ -9,9 +9,30 @@ const metricsPanel = [
 
 const MetricsPanel = () => {
   return (
-    <Grid2 container spacing={3} sx={{ mb: 4 }}>
+    <Box
+      sx={{
+        mb: 4,
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 2,
+        justifyContent: "space-between",
+      }}
+    >
       {metricsPanel.map((metric, index) => (
-        <Grid2 item xs={12} sm={6} md={4} lg={2} key={index}>
+        <Box
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "calc(50% - 16px)",
+              md: "calc(25% - 16px)",
+            },
+            minWidth: {
+              xs: "240px",
+              sm: "200px",
+            },
+          }}
+          key={index}
+        >
           <Card>
             <CardContent>
               <Typography variant="h6" component="div">
@@ -22,9 +43,9 @@ const MetricsPanel = () => {
               </Typography>
             </CardContent>
           </Card>
-        </Grid2>
+        </Box>
       ))}
-    </Grid2>
+    </Box>
   );
 };
 
