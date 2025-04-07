@@ -4,7 +4,8 @@ import { AgGridReact } from "ag-grid-react";
 import { themeMaterial } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
 import { useGetStudents } from "../http/Students";
-
+import { Search } from "@mui/icons-material";
+import { InputAdornment, TextField, Box } from "@mui/material";
 import mockStudents from "../mock/mock";
 import { Paper } from "@mui/material";
 
@@ -37,7 +38,30 @@ const CustomDataGrid = () => {
 
   return (
     <Paper elevation={3} sx={{ borderRadius: 2 }}>
-      <div style={{ height: 400, width: "100%" }}>
+      <Box sx={{ p: 2 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Поиск абитуриентов..."
+          size="small"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            },
+          }}
+          onChange={(e) => {
+            const searchText = e.target.value;
+            if (gridRef.current) {
+              gridRef.current.api.setQuickFilter(searchText);
+            }
+          }}
+        />
+      </Box>
+      <div style={{ height: 400 }}>
         <AgGridReact
           theme={themeMaterial}
           rowData={mockStudents}

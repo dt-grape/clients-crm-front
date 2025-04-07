@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import StudentDetails from "./pages/StudentDetail.jsx";
 import Tasks from "./pages/Tasks.jsx";
-
+import Profile from "./pages/Profile.jsx";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 function App() {
@@ -25,6 +25,7 @@ function App() {
       <Route path="/auth" element={<Auth />} />
       <Route path="/student/:studentId" element={<StudentDetails />} />
       <Route path="/tasks" element={<Tasks />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 }

@@ -1,7 +1,27 @@
-import React from "react";
-import { Box, Typography, Paper, Avatar, Divider, Button } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Box,
+  Typography,
+  Paper,
+  Avatar,
+  Divider,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from "@mui/material";
 
 const StudentInfoCard = ({ student, onEdit, onDelete }) => {
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
+  const [commentText, setCommentText] = useState("");
+
+  const handleAddComment = () => {
+    console.log("Comment added:", commentText);
+    setOpenCommentDialog(false);
+  };
+
   return (
     <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -54,6 +74,38 @@ const StudentInfoCard = ({ student, onEdit, onDelete }) => {
 
         <Divider />
 
+        <Box>
+          <Dialog
+            open={Boolean(openCommentDialog)}
+            onClose={() => setOpenCommentDialog(false)}
+            fullWidth
+            maxWidth="sm"
+          >
+            <DialogTitle>Добавить комментарий</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Комментарий"
+                type="text"
+                fullWidth
+                multiline
+                rows={4}
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenCommentDialog(false)}>
+                Отмена
+              </Button>
+              <Button onClick={handleAddComment} variant="contained">
+                Сохранить
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -74,6 +126,7 @@ const StudentInfoCard = ({ student, onEdit, onDelete }) => {
 
           <Button
             variant="contained"
+            onClick={() => setOpenCommentDialog(true)}
             color="success"
             fullWidth
             sx={{ minHeight: "36px" }}

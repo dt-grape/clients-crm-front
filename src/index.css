@@ -27,4 +27,23 @@ body {
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'Mpoca';
+    src: url('/fonts/Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mpoca';
+    src: url('/fonts/Bold-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+.active {
+    color: #1976d2 !important;
+}
 

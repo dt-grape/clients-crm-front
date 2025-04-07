@@ -46,6 +46,31 @@ const mockStudents = [
     is_dormitory_needed: false,
     exam_type: "ЕГЭ",
   },
+  {
+    student_id: 5,
+    name: "Смирнов Александр Иванович",
+    status: {
+      title: "Завершен"
+    },
+    profile: "Программирование",
+    email: "alexander.smirnov@example.com",
+    phone_number: "+79123456789",
+    cellphone_number: "+79123456789",
+    total_points_with_achievements: 95,
+    is_dormitory_needed: false,
+    exam_type: "ЕГЭ",
+  }, 
+  {
+    student_id: 6,
+    name: "Кузнецова Ольга Александровна",
+    status: {
+      title: "Завершен"
+    },
+    profile: "Программирование",
+    total_points_with_achievements: 95,
+    is_dormitory_needed: false,
+    exam_type: "ЕГЭ",
+  },
 ];
 
 export default mockStudents;

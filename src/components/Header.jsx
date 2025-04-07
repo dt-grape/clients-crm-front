@@ -1,23 +1,7 @@
 import React from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import EventIcon from "@mui/icons-material/Event";
-import ListAltIcon from "@mui/icons-material/ListAlt";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -55,63 +39,6 @@ const Header = () => {
     mutation.mutate();
   };
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
-
-  const DrawerList = (
-    <>
-      <Box
-        sx={{
-          width: 350,
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-        }}
-        role="presentation"
-        onClick={toggleDrawer(false)}
-      >
-        <List>
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/")}>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Главная" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton onClick={() => navigate("/tasks")}>
-              <ListItemIcon>
-                <ListAltIcon />
-              </ListItemIcon>
-              <ListItemText primary="Задачи" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-      </Box>
-      <Box
-        sx={{
-          justifySelf: "flex-end",
-          p: 1,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Avatar />
-        <Box>
-          <Typography>JohnDoe@gmail.com</Typography>
-          <Typography>John Doe</Typography>
-        </Box>
-        <Button variant="outlined" onClick={handleLogout}>
-          Выйти
-        </Button>
-      </Box>
-    </>
-  );
-
   return (
     <header>
       <Box
@@ -124,18 +51,47 @@ const Header = () => {
         }}
       >
         <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Typography variant="h6" fontFamily="JetBrains Mono">
-            StudentReach CRM
+          <Typography variant="h4" fontFamily="Mpoca">
+            МудроГлас
           </Typography>
         </Link>
         {isAuth ? (
           <>
-            <Button variant="contained" onClick={toggleDrawer(true)}>
-              <MenuIcon />
-            </Button>
-            <Drawer anchor={"right"} open={open} onClose={toggleDrawer(false)}>
-              {DrawerList}
-            </Drawer>
+            <Box
+              component={Link}
+              to="/profile"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                textDecoration: "none",
+                color: "inherit",
+                cursor: "pointer",
+                "&:hover": {
+                  bgcolor: "rgba(0, 0, 0, 0.04)",
+                },
+                padding: "8px",
+                borderRadius: "8px",
+                transition: "background-color 0.3s",
+              }}
+            >
+              <Avatar
+                color="primary"
+                sx={{ width: 40, height: 40, bgcolor: "darkorange" }}
+              >
+                D
+              </Avatar>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body1">Дмитрий</Typography>
+                <Typography variant="body2">Админ</Typography>
+              </Box>
+            </Box>
           </>
         ) : (
           <Button variant="contained" onClick={handleLogin}>
