@@ -3,17 +3,17 @@ import CustomDataGrid from "../components/CustomDataGrid.jsx";
 import MetricsPanel from "../components/MetricsPanel.jsx";
 import { Box } from "@mui/material";
 import StudentsChart from "../components/StudentsChart.jsx";
+import StudentsByProfileChart from "../components/StudentsByProfileChart.jsx";
 const Home = () => {
   return (
     <>
       <Box
         component="main"
         sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            md: "repeat(2, minmax(0, 1fr))",
-          },
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          flexWrap: "wrap",
+          pb: { xs: 0, md: 4 },
           gap: 3,
           paddingInline: 2,
         }}
@@ -21,6 +21,7 @@ const Home = () => {
         <CustomDataGrid />
         <StudentsChart />
         <MetricsPanel />
+        <StudentsByProfileChart />
       </Box>
     </>
   );

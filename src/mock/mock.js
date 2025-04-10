@@ -71,6 +71,17 @@ const mockStudents = [
     is_dormitory_needed: false,
     exam_type: "ЕГЭ",
   },
+  {
+    student_id: 7,
+    name: "Масагутов Алмаз Викторович",
+    status: {
+      title: "Активный"
+    },
+    profile: "Программирование",
+    total_points_with_achievements: 85,
+    is_dormitory_needed: true,
+    exam_type: "ЕГЭ",
+  }
 ];
 
 export default mockStudents;

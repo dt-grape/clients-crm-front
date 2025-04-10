@@ -40,7 +40,16 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        backgroundColor: "white",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -55,49 +64,67 @@ const Header = () => {
             МудроГлас
           </Typography>
         </Link>
-        {isAuth ? (
-          <>
-            <Box
-              component={Link}
-              to="/profile"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: 2,
-                textDecoration: "none",
-                color: "inherit",
-                cursor: "pointer",
-                "&:hover": {
-                  bgcolor: "rgba(0, 0, 0, 0.04)",
-                },
-                padding: "8px",
-                borderRadius: "8px",
-                transition: "background-color 0.3s",
-              }}
-            >
-              <Avatar
-                color="primary"
-                sx={{ width: 40, height: 40, bgcolor: "darkorange" }}
-              >
-                D
-              </Avatar>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: "text.secondary",
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            {new Date().toLocaleDateString("ru-RU", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Typography>
+          {isAuth ? (
+            <>
               <Box
+                component={Link}
+                to="/profile"
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
                   alignItems: "center",
+                  gap: 2,
+                  textDecoration: "none",
+                  color: "inherit",
+                  cursor: "pointer",
+                  "&:hover": {
+                    bgcolor: "rgba(0, 0, 0, 0.04)",
+                  },
+                  padding: "8px",
+                  borderRadius: "8px",
+                  transition: "background-color 0.3s",
                 }}
               >
-                <Typography variant="body1">Дмитрий</Typography>
-                <Typography variant="body2">Админ</Typography>
+                <Avatar
+                  color="primary"
+                  sx={{ width: 40, height: 40, bgcolor: "darkorange" }}
+                >
+                  D
+                </Avatar>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body1">Дмитрий</Typography>
+                  <Typography variant="body2">Админ</Typography>
+                </Box>
               </Box>
-            </Box>
-          </>
-        ) : (
-          <Button variant="contained" onClick={handleLogin}>
-            Войти
-          </Button>
-        )}
+            </>
+          ) : (
+            <Button variant="contained" onClick={handleLogin}>
+              Войти
+            </Button>
+          )}
+        </Box>
       </Box>
     </header>
   );

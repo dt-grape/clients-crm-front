@@ -16,10 +16,17 @@ import {
 const StudentInfoCard = ({ student, onEdit, onDelete }) => {
   const [openCommentDialog, setOpenCommentDialog] = useState(false);
   const [commentText, setCommentText] = useState("");
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [editedStudent, setEditedStudent] = useState(student);
 
   const handleAddComment = () => {
     console.log("Comment added:", commentText);
     setOpenCommentDialog(false);
+  };
+
+  const handleSaveEdit = () => {
+    onEdit(editedStudent);
+    setOpenEditDialog(false);
   };
 
   return (
@@ -115,42 +122,106 @@ const StudentInfoCard = ({ student, onEdit, onDelete }) => {
           </Dialog>
         </Box>
 
-        <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            flexDirection: { xs: "column", sm: "row" },
-            width: "100%",
-          }}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={onEdit}
+        <Box>
+          <Dialog
+            open={Boolean(openEditDialog)}
+            onClose={() => setOpenEditDialog(false)}
             fullWidth
-            sx={{ minHeight: "36px" }}
+            maxWidth="sm"
           >
-            Редактировать
-          </Button>
+            <DialogTitle>Редактировать данные</DialogTitle>
+            <DialogContent>
+              <Box
+                sx={{ display: "flex", flexDirection: "column", gap: 2, py: 2 }}
+              >
+                <TextField
+                  label="ФИО"
+                  fullWidth
+                  value={editedStudent?.name || ""}
+                  onChange={(e) =>
+                    setEditedStudent({ ...editedStudent, name: e.target.value })
+                  }
+                />
+                <TextField
+                  label="Email"
+                  fullWidth
+                  value={editedStudent?.email || ""}
+                  onChange={(e) =>
+                    setEditedStudent({
+                      ...editedStudent,
+                      email: e.target.value,
+                    })
+                  }
+                />
+                <TextField
+                  label="Телефон"
+                  fullWidth
+                  value={editedStudent?.phone_number || ""}
+                  onChange={(e) =>
+                    setEditedStudent({
+                      ...editedStudent,
+                      phone_number: e.target.value,
+                    })
+                  }
+                />
+                <TextField
+                  label="Мобильный телефон"
+                  fullWidth
+                  value={editedStudent?.cellphone_number || ""}
+                  onChange={(e) =>
+                    setEditedStudent({
+                      ...editedStudent,
+                      cellphone_number: e.target.value,
+                    })
+                  }
+                />
+              </Box>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenEditDialog(false)}>Отмена</Button>
+              <Button onClick={handleSaveEdit} variant="contained">
+                Сохранить
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-          <Button
-            variant="contained"
-            onClick={() => setOpenCommentDialog(true)}
-            color="success"
-            fullWidth
-            sx={{ minHeight: "36px" }}
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              flexDirection: { xs: "column", sm: "row" },
+              width: "100%",
+            }}
           >
-            Добавить комментарий
-          </Button>
-          <Button
-            variant="outlined"
-            color="error"
-            onClick={onDelete}
-            fullWidth
-            sx={{ minHeight: "36px" }}
-          >
-            Удалить
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenEditDialog(true)}
+              fullWidth
+              sx={{ minHeight: "36px" }}
+            >
+              Редактировать
+            </Button>
+
+            <Button
+              variant="contained"
+              onClick={() => setOpenCommentDialog(true)}
+              color="success"
+              fullWidth
+              sx={{ minHeight: "36px" }}
+            >
+              Добавить комментарий
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={onDelete}
+              fullWidth
+              sx={{ minHeight: "36px" }}
+            >
+              Удалить
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Paper>

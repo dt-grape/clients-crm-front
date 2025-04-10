@@ -5,7 +5,16 @@ import { themeMaterial } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
 import { useGetStudents } from "../http/Students";
 import { Search, Upload } from "@mui/icons-material";
-import { InputAdornment, TextField, Box } from "@mui/material";
+import {
+  InputAdornment,
+  TextField,
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
 import mockStudents from "../mock/mock";
 import { Paper, Button } from "@mui/material";
 
@@ -16,7 +25,7 @@ const CustomDataGrid = () => {
 
   const colDefs = useMemo(
     () => [
-      { field: "name", headerName: "ФИО", filter: true },
+      { field: "name", headerName: "ФИО" },
       { field: "status.title", headerName: "Статус" },
       { field: "profile", headerName: "Направление" },
       { field: "total_points_with_achievements", headerName: "Баллы" },
@@ -37,8 +46,11 @@ const CustomDataGrid = () => {
   // if (isError) return <p>Ошибка загрузки данных</p>;
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: 2 }}>
-      <Box sx={{ p: 2, display: "flex", gap: 2 }}>
+    <Paper
+      elevation={3}
+      sx={{ borderRadius: 2, width: { xs: "100%", md: "calc(65% - 16px)" } }}
+    >
+      <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -59,7 +71,22 @@ const CustomDataGrid = () => {
               gridRef.current.api.setQuickFilter(searchText);
             }
           }}
+          sx={{ flex: 1, minWidth: "200px" }}
         />
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <InputLabel id="profile-filter-label">Направление</InputLabel>
+          <Select
+            labelId="profile-filter-label"
+            id="profile-filter"
+            label="Направление"
+            defaultValue="all"
+          >
+            <MenuItem value="all">Все направления</MenuItem>
+            <MenuItem value="Программирование">Программирование</MenuItem>
+            <MenuItem value="Дизайн">Дизайн</MenuItem>
+            <MenuItem value="Маркетинг">Маркетинг</MenuItem>
+          </Select>
+        </FormControl>
         <input
           type="file"
           accept=".csv,.xlsx,.xls"
@@ -70,9 +97,11 @@ const CustomDataGrid = () => {
             // Handle file upload logic here
           }}
         />
-        <Button variant="contained" component="label" htmlFor="file-upload">
-          <Upload />
-        </Button>
+        <Tooltip title="Загрузить файл">
+          <Button variant="contained" component="label" htmlFor="file-upload">
+            <Upload />
+          </Button>
+        </Tooltip>
       </Box>
       <div style={{ height: 400 }}>
         <AgGridReact

@@ -1,20 +1,22 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 
 const metricsPanel = [
-  { title: "Всего абитуриентов", value: "3" },
-  { title: "Максимальный балл", value: "400" },
-  { title: "Минимальный балл", value: "230" },
-  { title: "Средний балл", value: "333" },
+  { title: "Всего абитуриентов", value: "6" },
+  { title: "Максимальный балл", value: "95" },
+  { title: "Минимальный балл", value: "78" },
+  { title: "Средний балл", value: "90" },
 ];
 
 const MetricsPanel = () => {
   return (
     <Box
       sx={{
-        mb: 4,
+        mb: { xs: 0, md: 16 },
         display: "flex",
         flexWrap: "wrap",
-        gap: 2,
+        columnGap: 2,
+        rowGap: 2,
+        width: { xs: "100%", md: "calc(35% - 16px)" },
       }}
     >
       {metricsPanel.map((metric, index) => (
@@ -22,12 +24,7 @@ const MetricsPanel = () => {
           sx={{
             width: {
               xs: "100%",
-              sm: "calc(50% - 16px)",
-              md: "calc(50% - 16px)",
-            },
-            minWidth: {
-              xs: "240px",
-              sm: "200px",
+              sm: "calc(50% - 8px)",
             },
           }}
           key={index}

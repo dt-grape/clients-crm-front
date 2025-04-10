@@ -53,7 +53,10 @@ const StudentsChart = () => {
   });
 
   return (
-    <Paper elevation={3} sx={{ borderRadius: 2 }}>
+    <Paper
+      elevation={3}
+      sx={{ borderRadius: 2, width: { xs: "100%", md: "calc(35% - 16px)" } }}
+    >
       <div
         style={{
           height: 400,
