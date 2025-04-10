@@ -48,12 +48,11 @@ const StudentDetails = () => {
   return (
     <Container
       sx={{
-        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        paddingBlock: "20px",
+        paddingBlock: "10px",
       }}
     >
       <Box sx={{ width: "100%", margin: "0 auto" }}>

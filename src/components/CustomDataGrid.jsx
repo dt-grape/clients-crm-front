@@ -4,10 +4,10 @@ import { AgGridReact } from "ag-grid-react";
 import { themeMaterial } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
 import { useGetStudents } from "../http/Students";
-import { Search } from "@mui/icons-material";
+import { Search, Upload } from "@mui/icons-material";
 import { InputAdornment, TextField, Box } from "@mui/material";
 import mockStudents from "../mock/mock";
-import { Paper } from "@mui/material";
+import { Paper, Button } from "@mui/material";
 
 const CustomDataGrid = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const CustomDataGrid = () => {
 
   return (
     <Paper elevation={3} sx={{ borderRadius: 2 }}>
-      <Box sx={{ p: 2 }}>
+      <Box sx={{ p: 2, display: "flex", gap: 2 }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -60,6 +60,19 @@ const CustomDataGrid = () => {
             }
           }}
         />
+        <input
+          type="file"
+          accept=".csv,.xlsx,.xls"
+          style={{ display: "none" }}
+          id="file-upload"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            // Handle file upload logic here
+          }}
+        />
+        <Button variant="contained" component="label" htmlFor="file-upload">
+          <Upload />
+        </Button>
       </Box>
       <div style={{ height: 400 }}>
         <AgGridReact

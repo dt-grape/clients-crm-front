@@ -1,13 +1,10 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Auth from "./pages/Auth.jsx";
+import { Outlet } from "react-router-dom";
+import Header from "./components/Header";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import StudentDetails from "./pages/StudentDetail.jsx";
-import Tasks from "./pages/Tasks.jsx";
-import Profile from "./pages/Profile.jsx";
+import { useTheme, useMediaQuery, Box, IconButton } from "@mui/material";
+import { useState } from "react";
+import { ArrowForward } from "@mui/icons-material";
+import AsideNav from "./components/AsideNav";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 function App() {
@@ -19,14 +16,43 @@ function App() {
   //     navigate("/auth");
   //   }
   // }, [navigate]);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/auth" element={<Auth />} />
-      <Route path="/student/:studentId" element={<StudentDetails />} />
-      <Route path="/tasks" element={<Tasks />} />
-      <Route path="/profile" element={<Profile />} />
-    </Routes>
+    <>
+      <Header />
+      {isMobile && (
+        <Box
+          sx={{
+            position: "fixed",
+            left: 0,
+            backgroundColor: "background.paper",
+            borderTopRightRadius: 8,
+            borderBottomRightRadius: 8,
+            boxShadow: 2,
+            zIndex: 1100,
+          }}
+        >
+          <IconButton onClick={() => setIsNavOpen(true)} size="small">
+            <ArrowForward />
+          </IconButton>
+        </Box>
+      )}
+      <Box
+        sx={{
+          mt: { xs: 0, md: 4 },
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", md: "250px 1fr" },
+          gap: 3,
+        }}
+      >
+        <AsideNav isOpen={isNavOpen} onClose={() => setIsNavOpen(false)} />
+        <Outlet />
+      </Box>
+    </>
   );
 }
 

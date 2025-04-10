@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
+import HistoryIcon from "@mui/icons-material/History";
 
 const AsideNav = ({ isOpen, onClose }) => {
   const theme = useTheme();
@@ -67,7 +67,7 @@ const AsideNav = ({ isOpen, onClose }) => {
           }}
         >
           <NavLink
-            to="/students"
+            to="/history"
             className={({ isActive }) => (isActive ? "active" : undefined)}
             style={{
               display: "flex",
@@ -76,8 +76,8 @@ const AsideNav = ({ isOpen, onClose }) => {
               color: "inherit",
             }}
           >
-            <PeopleIcon sx={{ mr: 2 }} />
-            <ListItemText primary="Студенты" />
+            <HistoryIcon sx={{ mr: 2 }} />
+            <ListItemText primary="История взаимодействий" />
           </NavLink>
         </ListItem>
         <ListItem
