@@ -13,14 +13,17 @@ import {
   TextField,
 } from "@mui/material";
 
-const StudentInfoCard = ({ student, onEdit, onDelete }) => {
+const StudentInfoCard = ({ student, onEdit, onDelete, onAddComment }) => {
   const [openCommentDialog, setOpenCommentDialog] = useState(false);
   const [commentText, setCommentText] = useState("");
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [editedStudent, setEditedStudent] = useState(student);
 
   const handleAddComment = () => {
-    console.log("Comment added:", commentText);
+    if (commentText.trim()) {
+      onAddComment(commentText);
+      setCommentText("");
+    }
     setOpenCommentDialog(false);
   };
 
@@ -210,7 +213,7 @@ const StudentInfoCard = ({ student, onEdit, onDelete }) => {
               fullWidth
               sx={{ minHeight: "36px" }}
             >
-              Добавить комментарий
+              Записать результат созвона
             </Button>
             <Button
               variant="outlined"

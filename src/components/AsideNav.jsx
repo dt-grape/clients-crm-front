@@ -12,6 +12,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HistoryIcon from "@mui/icons-material/History";
+import { AdminPanelSettings } from "@mui/icons-material";
 
 const AsideNav = ({ isOpen, onClose }) => {
   const theme = useTheme();
@@ -91,29 +92,6 @@ const AsideNav = ({ isOpen, onClose }) => {
           }}
         >
           <NavLink
-            to="/statistics"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <BarChartIcon sx={{ mr: 2 }} />
-            <ListItemText primary="Статистика" />
-          </NavLink>
-        </ListItem>
-        <ListItem
-          sx={{
-            "&:hover": {
-              bgcolor: "rgba(0, 0, 0, 0.04)",
-            },
-            padding: "8px",
-            borderRadius: "8px",
-            transition: "background-color 0.3s",
-          }}
-        >
-          <NavLink
             to="/settings"
             style={{
               display: "flex",
@@ -122,8 +100,8 @@ const AsideNav = ({ isOpen, onClose }) => {
               color: "inherit",
             }}
           >
-            <SettingsIcon sx={{ mr: 2 }} />
-            <ListItemText primary="Настройки" />
+            <AdminPanelSettings sx={{ mr: 2 }} />
+            <ListItemText primary="Админ-панель" />
           </NavLink>
         </ListItem>
       </List>

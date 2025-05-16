@@ -81,6 +81,19 @@ const mockStudents = [
     total_points_with_achievements: 85,
     is_dormitory_needed: true,
     exam_type: "ЕГЭ",
+  },
+  {
+    student_id: 8,
+    name: "Федотов Николай Сергеевич",
+    status: {
+      title: "Активный"
+    },
+    profile: "Юрист",
+    total_points_with_achievements: 85,
+    is_dormitory_needed: true,
+    exam_type: "ЕГЭ",
+    email: "nikolay.fedotov@example.com",
+    phone_number: "+79123456789",
   }
 ];
 

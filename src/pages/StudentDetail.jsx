@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Box, Button, Container } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -16,6 +16,8 @@ const StudentDetails = () => {
   );
 
   // const { data: student, isLoading, isError } = useGetStudent(studentId);
+  const [comments, setComments] = useState([]);
+
   const handleEdit = () => {
     // TODO: Implement edit functionality
     console.log("Edit student:", student);
@@ -45,6 +47,22 @@ const StudentDetails = () => {
   //   );
   // }
 
+  const handleAddComment = (commentText) => {
+    const newComment = {
+      text: commentText,
+      timestamp: new Date()
+        .toLocaleString("ru-RU", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+        .replace(",", ""),
+    };
+    setComments([...comments, newComment]);
+  };
+
   return (
     <Container
       sx={{
@@ -68,8 +86,9 @@ const StudentDetails = () => {
           student={student}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onAddComment={handleAddComment}
         />
-        <InteractionsHistory />
+        <InteractionsHistory comments={comments} />
       </Box>
     </Container>
   );
