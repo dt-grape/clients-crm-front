@@ -1,6 +1,8 @@
 import React from "react";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 
+import logo from "../assets/logo.png";
+
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -59,9 +61,10 @@ const Header = () => {
           borderBottom: "1px solid #ccc",
         }}
       >
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Typography variant="h4" fontFamily="Mpoca">
-            МудроГлас
+        <Link to="/" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: "15px" }}>
+            <img src={logo} alt="logo" width={75} height={75} />
+          <Typography variant="h4" fontFamily="" sx={{fontSize: {xs: 16, md: 24}}}>
+            AlmazOne
           </Typography>
         </Link>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
