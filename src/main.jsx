@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import Home from "./pages/Home.jsx";
 import History from "./pages/History.jsx";
-import StudentDetails from "./pages/StudentDetail.jsx";
+import ClientDetails from "./pages/ClientDetails.jsx";
 import Profile from "./pages/Profile.jsx";
 import Auth from "./pages/Auth.jsx";
 const queryClient = new QueryClient();
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
         element: <History />,
       },
       {
-        path: "student/:studentId",
-        element: <StudentDetails />,
+        path: "client/:id",
+        element: <ClientDetails />,
       },
       {
         path: "profile",

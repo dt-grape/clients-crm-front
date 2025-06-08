@@ -5,40 +5,22 @@ import logo from "../assets/logo.png";
 
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
-const logoutUser = async () => {
-  const response = await axios.post(
-    "https://mint-bunny-weekly.ngrok-free.app/v1/auth/logout"
-  );
-  return response.data;
-};
-
-const Header = () => {
+const Header = ({ user }) => {
   const navigate = useNavigate();
-  const handleLogin = () => {
-    navigate("/auth");
-  };
-
-  const isAuth = true;
-
-  const [open, setOpen] = React.useState(false);
-
-  const mutation = useMutation({
-    mutationFn: logoutUser,
-    onSuccess: () => {
-      toast.success("Successfully logged out");
-      navigate("/auth");
-    },
-    onError: (error) => {
-      toast.error("Logout failed: " + error.message);
-    },
-  });
 
   const handleLogout = () => {
-    mutation.mutate();
+    localStorage.removeItem("token");
+    toast.success("Вы вышли из системы");
+    navigate("/login");
+  };
+
+  const formatName = (name) => {
+    if (!name) return "Пользователь";
+    const parts = name.split(" ");
+    if (parts.length === 1) return parts[0];
+    return `${parts[0]} ${parts[1].charAt(0).toUpperCase()}.`;
   };
 
   return (
@@ -61,9 +43,22 @@ const Header = () => {
           borderBottom: "1px solid #ccc",
         }}
       >
-        <Link to="/" style={{ textDecoration: "none", color: "inherit", display: "flex", alignItems: "center", gap: "15px" }}>
-            <img src={logo} alt="logo" width={75} height={75} />
-          <Typography variant="h4" fontFamily="" sx={{fontSize: {xs: 16, md: 24}}}>
+        <Link
+          to="/"
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+          }}
+        >
+          <img src={logo} alt="logo" width={75} height={75} />
+          <Typography
+            variant="h4"
+            fontFamily=""
+            sx={{ fontSize: { xs: 16, md: 24 } }}
+          >
             AlmazOne
           </Typography>
         </Link>
@@ -84,49 +79,22 @@ const Header = () => {
               day: "numeric",
             })}
           </Typography>
-          {isAuth ? (
-            <>
-              <Box
-                component={Link}
-                to="/profile"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  textDecoration: "none",
-                  color: "inherit",
-                  cursor: "pointer",
-                  "&:hover": {
-                    bgcolor: "rgba(0, 0, 0, 0.04)",
-                  },
-                  padding: "8px",
-                  borderRadius: "8px",
-                  transition: "background-color 0.3s",
-                }}
-              >
-                <Avatar
-                  color="primary"
-                  sx={{ width: 40, height: 40, bgcolor: "darkorange" }}
-                >
-                  D
-                </Avatar>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="body1">Дмитрий</Typography>
-                  <Typography variant="body2">Админ</Typography>
-                </Box>
-              </Box>
-            </>
-          ) : (
-            <Button variant="contained" onClick={handleLogin}>
-              Войти
-            </Button>
-          )}
+          <Avatar alt={user?.name} sx={{ width: 40, height: 40 }}>
+            {user?.name ? user?.name.charAt(0).toUpperCase() : "П"}
+          </Avatar>
+          <Typography
+            variant="body1"
+            sx={{ display: { xs: "none", md: "flex" } }}
+          >
+            {formatName(user?.name) || "Пользователь"}
+          </Typography>
+          <Button
+            variant="outlined"
+            onClick={handleLogout}
+            sx={{ display: { md: "inline-flex" } }}
+          >
+            Выйти
+          </Button>
         </Box>
       </Box>
     </header>

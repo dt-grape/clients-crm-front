@@ -2,8 +2,8 @@ import React from "react";
 import CustomDataGrid from "../components/CustomDataGrid.jsx";
 import MetricsPanel from "../components/MetricsPanel.jsx";
 import { Box } from "@mui/material";
-import StudentsChart from "../components/StudentsChart.jsx";
-import StudentsByProfileChart from "../components/StudentsByProfileChart.jsx";
+import ClientsBudgetChart from "../components/ClientsBudgetChart.jsx";
+import ClientsProjectTypeChart from "../components/ClientsProjectTypeChart.jsx";
 const Home = () => {
   return (
     <>
@@ -19,9 +19,9 @@ const Home = () => {
         }}
       >
         <CustomDataGrid />
-        <StudentsChart />
+        <ClientsBudgetChart />
         <MetricsPanel />
-        <StudentsByProfileChart />
+        <ClientsProjectTypeChart />
       </Box>
     </>
   );

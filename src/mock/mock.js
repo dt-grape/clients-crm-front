@@ -1,101 +1,84 @@
-const mockStudents = [
+const mockClients = [
   {
-    student_id: 1,
-    name: "Иванов Иван Иванович",
-    status: {
-      title: "Активный"
-    },
-    profile: "Программирование",
-    total_points_with_achievements: 85,
-    is_dormitory_needed: true,
-    exam_type: "ЕГЭ",
+    client_id: 1,
+    company_name: "ООО ВебТех",
+    contact_person: "Иванов Иван Иванович",
+    project_type: "Корпоративный сайт",
+    status: { title: "В работе" },
+    budget: 250000,
+    email: "ivanov@webtech.ru",
+    phone_number: "+79261234567",
   },
   {
-    student_id: 2,
-    name: "Петрова Анна Сергеевна",
-    status: {
-      title: "Активный"
-    },
-    profile: "Дизайн",
-    total_points_with_achievements: 92,
-    is_dormitory_needed: false,
-    exam_type: "ЕГЭ",
+    client_id: 2,
+    company_name: "ЗАО ДизайнПлюс",
+    contact_person: "Петрова Анна Сергеевна",
+    project_type: "Интернет-магазин",
+    status: { title: "Завершён" },
+    budget: 400000,
+    email: "petrova@designplus.ru",
+    phone_number: "+79261234568",
   },
   {
-    student_id: 3,
-    name: "Сидоров Дмитрий Александрович",
-    status: {
-      title: "В процессе"
-    },
-    profile: "Маркетинг",
-    total_points_with_achievements: 78,
-    is_dormitory_needed: true,
-    exam_type: "ЕГЭ",
+    client_id: 3,
+    company_name: "ИП Сидоров",
+    contact_person: "Сидоров Дмитрий Александрович",
+    project_type: "Лендинг",
+    status: { title: "В ожидании" },
+    budget: 120000,
+    email: "sidorov@landing.ru",
+    phone_number: "+79261234569",
   },
   {
-    student_id: 4,
-    name: "Козлова Елена Владимировна",
-    status: {
-      title: "Завершен"
-    },
-    profile: "Программирование",
-    email: "elena.kozlova@example.com",
-    phone_number: "+79123456789",
-    cellphone_number: "+79123456789",
-    total_points_with_achievements: 95,
-    is_dormitory_needed: false,
-    exam_type: "ЕГЭ",
+    client_id: 4,
+    company_name: "ООО ПромМаркет",
+    contact_person: "Козлова Елена Владимировна",
+    project_type: "B2B-портал",
+    status: { title: "В работе" },
+    budget: 600000,
+    email: "kozlova@prommarket.ru",
+    phone_number: "+79261234570",
   },
   {
-    student_id: 5,
-    name: "Смирнов Александр Иванович",
-    status: {
-      title: "Завершен"
-    },
-    profile: "Программирование",
-    email: "alexander.smirnov@example.com",
-    phone_number: "+79123456789",
-    cellphone_number: "+79123456789",
-    total_points_with_achievements: 95,
-    is_dormitory_needed: false,
-    exam_type: "ЕГЭ",
-  }, 
-  {
-    student_id: 6,
-    name: "Кузнецова Ольга Александровна",
-    status: {
-      title: "Завершен"
-    },
-    profile: "Программирование",
-    total_points_with_achievements: 95,
-    is_dormitory_needed: false,
-    exam_type: "ЕГЭ",
+    client_id: 5,
+    company_name: "ООО АйТиСтар",
+    contact_person: "Смирнов Александр Иванович",
+    project_type: "Корпоративный сайт",
+    status: { title: "Завершён" },
+    budget: 300000,
+    email: "smirnov@itstar.ru",
+    phone_number: "+79261234571",
   },
   {
-    student_id: 7,
-    name: "Масагутов Алмаз Викторович",
-    status: {
-      title: "Активный"
-    },
-    profile: "Программирование",
-    total_points_with_achievements: 85,
-    is_dormitory_needed: true,
-    exam_type: "ЕГЭ",
+    client_id: 6,
+    company_name: "ООО Кузнецова",
+    contact_person: "Кузнецова Ольга Александровна",
+    project_type: "Интернет-магазин",
+    status: { title: "В работе" },
+    budget: 450000,
+    email: "kuznetsova@shop.ru",
+    phone_number: "+79261234572",
   },
   {
-    student_id: 8,
-    name: "Федотов Николай Сергеевич",
-    status: {
-      title: "Активный"
-    },
-    profile: "Юрист",
-    total_points_with_achievements: 85,
-    is_dormitory_needed: true,
-    exam_type: "ЕГЭ",
-    email: "nikolay.fedotov@example.com",
-    phone_number: "+79123456789",
+    client_id: 7,
+    company_name: "ООО АлмазСофт",
+    contact_person: "Масагутов Алмаз Викторович",
+    project_type: "Сайт-визитка",
+    status: { title: "В ожидании" },
+    budget: 90000,
+    email: "masagutov@almazsoft.ru",
+    phone_number: "+79261234573",
+  },
+  {
+    client_id: 8,
+    company_name: "ООО ЮрКонсалт",
+    contact_person: "Федотов Николай Сергеевич",
+    project_type: "Корпоративный сайт",
+    status: { title: "В работе" },
+    budget: 200000,
+    email: "fedotov@jurconsult.ru",
+    phone_number: "+79261234574",
   }
 ];
 
-export default mockStudents;
-
+export default mockClients;

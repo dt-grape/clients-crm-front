@@ -1,60 +1,113 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { AgGridReact } from "ag-grid-react";
 import { themeMaterial } from "ag-grid-community";
 import { useNavigate } from "react-router-dom";
-import { useGetStudents } from "../http/Students";
-import { Search, Upload } from "@mui/icons-material";
+import { Add, Search } from "@mui/icons-material";
 import {
   InputAdornment,
+  Paper,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   TextField,
   Box,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Tooltip,
 } from "@mui/material";
-import mockStudents from "../mock/mock";
-import { Paper, Button } from "@mui/material";
+import { createClient, useGetClients } from "../http/clients.js";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const CustomDataGrid = () => {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({
+    companyName: "",
+    contactName: "",
+    phone: "",
+    email: "",
+    budget: "",
+    projectType: "",
+    status: "",
+  });
+
   const navigate = useNavigate();
 
-  // const { data, isLoading, isError } = useGetStudents();
+  const { data, isLoading, isError } = useGetClients();
+
+  const [clientsData, setClientsData] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setClientsData(data);
+    }
+  }, [data]);
+
+  const mutation = useMutation({
+    mutationFn: createClient,
+    onSuccess: (data) => {
+      toast.success("Клиент успешно добавлен");
+      setClientsData((prev) => [...prev, data]);
+    },
+
+    onError: (error) => {
+      toast.error(`Ошибка: ${error.response.data.message}`);
+    },
+  });
 
   const colDefs = useMemo(
     () => [
-      { field: "name", headerName: "ФИО" },
-      { field: "status.title", headerName: "Статус" },
-      { field: "profile", headerName: "Направление" },
-      { field: "total_points_with_achievements", headerName: "Баллы" },
-      {
-        field: "is_dormitory_needed",
-        headerName: "Общежитие",
-        valueFormatter: (params) => (params.value ? "Да" : "Нет"),
-      },
+      { field: "companyName", headerName: "Компания" },
+      { field: "contactName", headerName: "Контактное лицо" },
+      { field: "phone", headerName: "Номер телефона" },
+      { field: "status", headerName: "Статус" },
+      { field: "projectType", headerName: "Тип проекта" },
     ],
-    []
+    [],
   );
 
   const onRowClicked = (event) => {
-    navigate(`/student/${event.data.student_id}`, { state: event.data });
+    navigate(`/client/${event.data.id}`, { state: event.data });
   };
 
-  // if (isLoading) return <p>Загрузка...</p>;
-  // if (isError) return <p>Ошибка загрузки данных</p>;
+  if (isLoading) return <p>Загрузка...</p>;
+  if (isError) return <p>Ошибка загрузки данных</p>;
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate(form);
+    setForm({
+      companyName: "",
+      contactName: "",
+      phone: "",
+      email: "",
+      budget: "",
+      projectType: "",
+      status: "",
+    });
+    handleClose();
+    // refetch clients data
+    useGetClients.refetch();
+  };
 
   return (
     <Paper
       elevation={3}
       sx={{ borderRadius: 2, width: { xs: "100%", md: "calc(65% - 16px)" } }}
     >
-      <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "wrap" }}>
+      <Box sx={{ p: 2, display: "flex", gap: 2, flexWrap: "nowrap" }}>
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Поиск абитуриентов..."
+          placeholder="Поиск клиентов..."
           size="small"
           slotProps={{
             input: {
@@ -65,48 +118,92 @@ const CustomDataGrid = () => {
               ),
             },
           }}
-          onChange={(e) => {
-            const searchText = e.target.value;
-            if (gridRef.current) {
-              gridRef.current.api.setQuickFilter(searchText);
-            }
-          }}
-          sx={{ flex: 1, minWidth: "200px" }}
         />
-        <FormControl size="small" sx={{ minWidth: 200 }}>
-          <InputLabel id="profile-filter-label">Направление</InputLabel>
-          <Select
-            labelId="profile-filter-label"
-            id="profile-filter"
-            label="Направление"
-            defaultValue="all"
+        <Tooltip title="Добавить клиента">
+          <Button
+            onClick={handleOpen}
+            variant="contained"
+            component="label"
+            htmlFor="file-upload"
           >
-            <MenuItem value="all">Все направления</MenuItem>
-            <MenuItem value="Программирование">Программирование</MenuItem>
-            <MenuItem value="Дизайн">Дизайн</MenuItem>
-            <MenuItem value="Маркетинг">Маркетинг</MenuItem>
-          </Select>
-        </FormControl>
-        <input
-          type="file"
-          accept=".csv,.xlsx,.xls"
-          style={{ display: "none" }}
-          id="file-upload"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            // Handle file upload logic here
-          }}
-        />
-        <Tooltip title="Загрузить файл">
-          <Button variant="contained" component="label" htmlFor="file-upload">
-            <Upload />
+            <Add />
           </Button>
         </Tooltip>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Добавить клиента</DialogTitle>
+          <form onSubmit={handleSubmit}>
+            <DialogContent
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                minWidth: { xs: "250px", md: "400px" },
+              }}
+            >
+              <TextField
+                label="Компания"
+                name="companyName"
+                value={form.companyName}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Контактное лицо"
+                name="contactName"
+                value={form.contactName}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Телефон"
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Бюджет"
+                name="budget"
+                type="number"
+                value={form.budget}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Тип проекта"
+                name="projectType"
+                value={form.projectType}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="Статус"
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                required
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>Отмена</Button>
+              <Button type="submit" variant="contained">
+                Создать
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
       </Box>
       <div style={{ height: 400 }}>
         <AgGridReact
           theme={themeMaterial}
-          rowData={mockStudents}
+          rowData={clientsData}
           columnDefs={colDefs}
           onRowClicked={onRowClicked}
         />

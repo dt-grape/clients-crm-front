@@ -16,6 +16,7 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { API_URL } from "../utils/consts.js";
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   display: "flex",
@@ -59,15 +60,12 @@ const Card = styled(MuiCard)(({ theme }) => ({
 }));
 
 const loginUser = async (userData) => {
-  const response = await axios.post(
-    "https://mint-bunny-weekly.ngrok-free.app/v1/auth/login",
-    userData,
-  );
+  const response = await axios.post(`${API_URL}/auth/login`, userData);
   return response.data;
 };
 
 const Auth = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
@@ -76,19 +74,20 @@ const Auth = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       console.log("Успешный вход:", data);
+      localStorage.setItem("token", data.token);
       navigate("/");
       toast.success("Успешный вход");
     },
     onError: (error) => {
       console.error("Ошибка входа:", error);
       //toast with error message from server
-      toast.error(error.response.data.detail);
+      toast.error(error.response.data.message);
     },
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    mutation.mutate({ username, password });
+    mutation.mutate({ email, password });
   };
 
   return (
@@ -99,11 +98,11 @@ const Auth = () => {
         justifyContent: "center",
       }}
     >
-      <Card variant="outlined">
+      <Card variant="outlined" sx={{ width: "100%", maxWidth: "300px" }}>
         <Typography
           component="h1"
           variant="h4"
-          sx={{ width: "100%", fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
+          sx={{ fontSize: "clamp(2rem, 10vw, 2.15rem)" }}
         >
           Войти
         </Typography>
@@ -114,7 +113,6 @@ const Auth = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "100%",
             gap: 2,
           }}
         >
@@ -130,8 +128,8 @@ const Auth = () => {
               required
               fullWidth
               variant="outlined"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
           <FormControl>

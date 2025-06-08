@@ -1,3 +1,3 @@
-const API_URL = "https://mint-bunny-weekly.ngrok-free.app/v1";
+const API_URL = "http://localhost:3000/api";
 
 export { API_URL };

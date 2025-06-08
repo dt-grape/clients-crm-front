@@ -14,7 +14,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import HistoryIcon from "@mui/icons-material/History";
 import { AdminPanelSettings } from "@mui/icons-material";
 
-const AsideNav = ({ isOpen, onClose }) => {
+const AsideNav = ({ isOpen, onClose, user }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -91,18 +91,20 @@ const AsideNav = ({ isOpen, onClose }) => {
             transition: "background-color 0.3s",
           }}
         >
-          <NavLink
-            to="/settings"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <AdminPanelSettings sx={{ mr: 2 }} />
-            <ListItemText primary="Админ-панель" />
-          </NavLink>
+          {user?.role === "admin" && (
+            <NavLink
+              to="/settings"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              <AdminPanelSettings sx={{ mr: 2 }} />
+              <ListItemText primary="Админ-панель" />
+            </NavLink>
+          )}
         </ListItem>
       </List>
     </Box>

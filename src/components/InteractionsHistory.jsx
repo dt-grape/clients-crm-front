@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import {
   Box,
   Typography,
@@ -10,40 +12,48 @@ import {
 } from "@mui/material";
 import {
   FiberManualRecord as DotIcon,
-  Person as PersonIcon,
-  Event as TimeIcon,
-  AssignmentInd as StatusIcon,
+  AccessTime as AccessTimeIcon,
   Email as EmailIcon,
-  Comment as CommentIcon,
+  Call as CallIcon,
 } from "@mui/icons-material";
+import { useGetInteractionsByClient } from "../http/interactions";
 
-const InteractionsHistory = ({ comments = [] }) => {
-  const interactionHistory = [
-    ...comments.map((comment, index) => ({
-      id: 1000 + index,
-      user: "Виноградов Д.А.",
-      action: `записал результат созвона: '${comment.text}'`,
-      timestamp: "05.05.2025 14:30",
-      icon: <CommentIcon color="secondary" />,
-    })),
-  ];
+const getActionIcon = (type) => {
+  switch (type) {
+    case "call":
+      return <CallIcon color="primary" />;
+    case "email":
+      return <EmailIcon color="success" />;
+    default:
+      return <DotIcon color="action" />;
+  }
+};
+
+const InteractionsHistory = ({ clientId }) => {
+  const { data, isLoading, isError } = useGetInteractionsByClient(clientId);
+
+  if (isLoading) {
+    return <Typography>Загрузка...</Typography>;
+  }
+  if (isError) {
+    return <Typography color="error">Ошибка загрузки истории</Typography>;
+  }
 
   return (
     <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
       <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
         История взаимодействий
       </Typography>
-
       <List sx={{ position: "relative" }}>
-        {interactionHistory.length === 0 ? (
+        {!data || data.length === 0 ? (
           <ListItem>
             <Typography color="text.secondary">
               История взаимодействий пуста
             </Typography>
           </ListItem>
         ) : (
-          interactionHistory.map((item, index) => (
-            <>
+          data.map((item) => (
+            <React.Fragment key={item.id}>
               <Divider
                 orientation="vertical"
                 sx={{
@@ -57,7 +67,6 @@ const InteractionsHistory = ({ comments = [] }) => {
                 }}
               />
               <ListItem
-                key={item.id}
                 sx={{
                   alignItems: "flex-start",
                   pl: 5,
@@ -80,38 +89,49 @@ const InteractionsHistory = ({ comments = [] }) => {
                 >
                   <DotIcon sx={{ fontSize: 8, color: "white" }} />
                 </Box>
-
-                <Avatar sx={{ bgcolor: "grey.100", mr: 2 }}>{item.icon}</Avatar>
-
+                <Avatar sx={{ bgcolor: "grey.100", mr: 2 }}>
+                  {getActionIcon(item.type)}
+                </Avatar>
                 <ListItemText
                   primary={
                     <>
                       <Typography component="span" fontWeight="bold">
-                        {item.user}
-                      </Typography>
-                      <Typography component="span" sx={{ ml: 1 }}>
-                        {item.action}
+                        {item.User?.name || item.User?.email}
                       </Typography>
                     </>
                   }
                   secondary={
                     <Box
                       component="span"
-                      sx={{ display: "flex", alignItems: "center", mt: 0.5 }}
+                      sx={{
+                        display: "flex",
+                        alignItems: "start",
+                        mt: 0.5,
+                        flexDirection: "column",
+                      }}
                     >
-                      <TimeIcon
-                        fontSize="small"
-                        sx={{ mr: 0.5, fontSize: 16 }}
-                      />
                       <Typography variant="caption" color="text.secondary">
-                        {item.timestamp}
+                        {item.comment}
                       </Typography>
+                      <Box sx={{ display: "flex", alignItems: "start" }}>
+                        <AccessTimeIcon
+                          fontSize="small"
+                          sx={{ mr: 0.5, fontSize: 16 }}
+                        />
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          sx={{ mr: 1 }}
+                        >
+                          {new Date(item.createdAt).toLocaleString()}
+                        </Typography>
+                      </Box>
                     </Box>
                   }
                   sx={{ my: 0 }}
                 />
               </ListItem>
-            </>
+            </React.Fragment>
           ))
         )}
       </List>
