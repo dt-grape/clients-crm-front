@@ -64,7 +64,7 @@ const CustomDataGrid = () => {
       { field: "status", headerName: "Статус" },
       { field: "projectType", headerName: "Тип проекта" },
     ],
-    [],
+    []
   );
 
   const onRowClicked = (event) => {
